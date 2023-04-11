@@ -5,6 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { TodosModule } from './todos/todos.module';
 import { StoreModule } from '@ngrx/store';
+import { todosReducer } from './todos/state';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,7 @@ import { StoreModule } from '@ngrx/store';
     BrowserModule,
     TodosModule,
     AppRoutingModule,
-    StoreModule.forRoot({}, {})
+    StoreModule.forRoot({ todosState: todosReducer }, {})
   ],
   providers: [],
   bootstrap: [AppComponent]
