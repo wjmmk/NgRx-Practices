@@ -5,7 +5,7 @@ import { AddTodoComponent } from './add-todo/add-todo.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TodoComponent } from './todo/todo.component';
 import { StoreModule } from '@ngrx/store';
-import { todosReducer } from './state';
+import { TodosEffects, todosReducer, todosStateFeatureKey } from './state';
 import { EffectsModule } from '@ngrx/effects';
 
 @NgModule({
@@ -13,8 +13,8 @@ import { EffectsModule } from '@ngrx/effects';
   imports: [
     CommonModule, 
     ReactiveFormsModule, 
-    StoreModule.forFeature('todosState', todosReducer),
-    EffectsModule.forFeature([])
+    StoreModule.forFeature(todosStateFeatureKey, todosReducer),
+    EffectsModule.forFeature([TodosEffects])
   ],
   exports: [TodosComponent],
 })

@@ -61,6 +61,7 @@ export class TodosEffects {
       )
     )
   );
+  
   removeTodo$ = createEffect(() =>
     this.actions$.pipe(
       ofType(TodosPageActions.removeTodo),
@@ -97,6 +98,7 @@ export class TodosEffects {
       )
     )
   );
+
   markTodoAsPending$ = createEffect(() =>
     this.actions$.pipe(
       ofType(TodosPageActions.markAsPending),

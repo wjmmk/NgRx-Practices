@@ -1,5 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
-import { TodosPageActions } from '.';
+import { TodosApiActions, TodosPageActions } from '.';
 import { initialTodos, Todo } from '../model';
 
 export const todosStateFeatureKey = 'todosState';
@@ -14,11 +14,11 @@ const initialState: TodosState = {
 
 export const todosReducer = createReducer(
   initialState,
-  on(TodosPageActions.init, (currentState) => ({
+  on(TodosApiActions.loadAllSuccess, (currentState, action) => ({
     ...currentState,
-    todos: initialTodos,
+    todos: action.todos,
   })),
-  on(TodosPageActions.addTodo, (currentState, action) => ({
+  on(TodosApiActions.addTodoSuccess, (currentState, action) => ({
     ...currentState,
     todos: [...currentState.todos, action.todo],
   })),
@@ -32,14 +32,19 @@ export const todosReducer = createReducer(
       todo.id === action.todo.id ? { ...todo, completed: true } : todo
     ),
   })),
-  on(TodosPageActions.markAsPending, (currentState, action) => ({
+  on(TodosPageActions.markAsPending, 
+     TodosApiActions.markAsCompletedError,
+    (currentState, action) => ({
     ...currentState,
     todos: currentState.todos.map((todo) =>
       todo.id === action.todo.id ? { ...todo, completed: false } : todo
     ),
   })),
-  on(TodosPageActions.clearCompleted, (currentState) => ({
-    ...currentState,
-    todos: currentState.todos.filter((todo) => todo.completed === false),
+  on(TodosApiActions.clearCompletedSuccess, (state, action) => ({
+    ...state,
+    todos: state.todos.filter((item) => action.deletedTodos.find(
+      (deletedTodo) => deletedTodo.id === item.id
+     )  === undefined
+    ),
   }))
 );
